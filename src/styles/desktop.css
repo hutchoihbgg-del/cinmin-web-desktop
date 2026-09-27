@@ -1,0 +1,181 @@
+/* desktop.css — Mint purple replica */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --accent: #8b5cf6;
+  --accent-strong: #6d28d9;
+  --bg: #1a0b2e;
+  --text: #eef1ff;
+  --glass: rgba(255,255,255,0.08);
+  --glass-strong: rgba(255,255,255,0.12);
+  --border: rgba(255,255,255,0.14);
+  --taskbar-h: 42px;
+}
+[data-theme="light"] {
+  --bg: #e8ecf6; --text: #1a1f3d;
+  --glass: rgba(255,255,255,0.65); --glass-strong: rgba(255,255,255,0.85); --border: rgba(0,0,0,0.08);
+}
+[data-theme="light"] #wallpaper { filter: brightness(1.05); }
+html, body { height: 100%; overflow: hidden; font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+#app { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+
+/* Wallpaper — purple wave + LM logo like screenshot */
+#wallpaper {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(800px 500px at 75% 20%, #a855f766, transparent 60%),
+    linear-gradient(112deg, #1a1033 0%, #2e1065 22%, #4c1d95 45%, #6d28d9 62%, #7c3aed 78%, #4c1d95 100%);
+  z-index: 0;
+  overflow: hidden;
+}
+#wallpaper::before {
+  content: ''; position: absolute; inset: -20% -10% -30% 15%;
+  background: linear-gradient(108deg, transparent 32%, rgba(124,58,237,0.55) 38%, rgba(168,85,247,0.9) 48%, rgba(168,85,247,0.6) 55%, transparent 65%);
+  border-radius: 40% 0 0 40% / 60% 0 0 60%;
+  transform: skewX(-6deg);
+  filter: blur(0.5px);
+}
+#wallpaper::after {
+  content: ''; position: absolute; right: -10%; bottom: -15%; width: 70%; height: 55%;
+  background: linear-gradient(100deg, transparent 30%, rgba(76,29,149,0.7) 45%, rgba(109,40,217,0.5) 60%, transparent 75%);
+  border-radius: 50% 0 0 0;
+}
+#wallpaper-logo {
+  position: absolute; left: 57%; top: 46%; transform: translate(-50%, -50%);
+  opacity: 0.92; filter: drop-shadow(0 8px 32px rgba(0,0,0,0.4));
+  pointer-events: none;
+}
+
+#desktop { position: absolute; inset: 0 0 var(--taskbar-h) 0; padding: 0; z-index: 1; overflow: hidden; }
+.desktop-icon {
+  width: 76px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: transparent; border: 1px solid transparent; border-radius: 8px;
+  padding: 6px 4px; cursor: pointer; color: #e9d5ff;
+  transition: background 0.12s, border-color 0.12s; user-select: none;
+}
+.desktop-icon:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); }
+.desktop-icon.selected { background: rgba(139,92,246,0.25); border-color: rgba(139,92,246,0.4); }
+.desktop-icon .d-icon { font-size: 38px; line-height: 1; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); }
+.desktop-icon .d-label { font-size: 11px; text-align: center; color: #f5f3ff; text-shadow: 0 1px 3px rgba(0,0,0,0.8); line-height: 1.15; }
+
+#windows { position: absolute; inset: 0 0 var(--taskbar-h) 0; z-index: 5; pointer-events: none; }
+#windows .window { pointer-events: auto; }
+
+/* Taskbar — dark like Mint */
+#taskbar {
+  position: absolute; left: 0; right: 0; bottom: 0; height: var(--taskbar-h);
+  background: #1e1b2e;
+  border-top: 1px solid rgba(139,92,246,0.15);
+  display: flex; align-items: center; gap: 4px;
+  padding: 0 6px; z-index: 20;
+}
+.start-btn {
+  background: #2d2650; border: 1px solid rgba(139,92,246,0.25); border-radius: 8px;
+  width: 38px; height: 30px; display: grid; place-items: center;
+  color: #c4b5fd; cursor: pointer; transition: background 0.12s;
+}
+.start-btn:hover { background: #3b2f6e; }
+.lm-icon { font-weight: 700; font-size: 12px; letter-spacing: -0.02em; background: #c4b5fd; color: #1e1b2e; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; }
+.task-icon {
+  background: transparent; border: 1px solid transparent; border-radius: 6px;
+  width: 34px; height: 30px; display: grid; place-items: center;
+  font-size: 14px; cursor: pointer; color: #c4b5fd;
+}
+.task-icon:hover { background: rgba(139,92,246,0.15); }
+#taskbar-apps { display: flex; gap: 4px; flex: 1; overflow: hidden; }
+.taskbar-app {
+  background: rgba(139,92,246,0.18); border: 1px solid rgba(139,92,246,0.25); color: #e9d5ff;
+  border-radius: 6px; padding: 5px 10px; font-size: 12px; cursor: pointer;
+  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+}
+.taskbar-app.active { background: rgba(139,92,246,0.32); border-color: #8b5cf6; }
+.taskbar-app.minimized { opacity: 0.55; }
+#taskbar-right { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #c4b5fd; padding: 0 8px; }
+.tray-icon { font-size: 13px; opacity: 0.9; }
+
+/* Start menu — exact Mint replica: dark, rounded, search + two columns */
+#start-menu {
+  position: absolute; left: 6px; bottom: 46px; width: 520px; height: 430px;
+  background: #1a1625;
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 10px;
+  z-index: 30; overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  transition: opacity 0.16s, transform 0.16s;
+  display: flex; flex-direction: column;
+}
+#start-menu.hidden { opacity: 0; pointer-events: none; transform: translateY(6px); }
+.mint-search {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; background: #232030; border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.mint-search-icon { color: #9ca3af; font-size: 13px; }
+.mint-search input {
+  flex: 1; background: #2a2640; border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px; padding: 6px 10px; color: #f3f4f6; font-size: 12px; outline: none;
+}
+.mint-search input:focus { border-color: #8b5cf6; background: #2f2b4a; }
+.mint-search input::placeholder { color: #9ca3af; }
+.mint-body { display: flex; flex: 1; min-height: 0; }
+.mint-cats {
+  width: 175px; background: #1e1b2e; border-right: 1px solid rgba(255,255,255,0.06);
+  padding: 6px 6px; display: flex; flex-direction: column; gap: 1px; overflow-y: auto;
+}
+.mint-cat {
+  display: flex; align-items: center; gap: 8px;
+  background: transparent; border: none; color: #d1d5db;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px; cursor: pointer; text-align: left;
+}
+.mint-cat:hover { background: rgba(255,255,255,0.06); }
+.mint-cat.active { background: #7c3aed; color: white; }
+.cat-icon { font-size: 13px; width: 16px; text-align: center; }
+.mint-apps {
+  flex: 1; background: #232030; padding: 6px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 1px;
+}
+.mint-app {
+  display: flex; align-items: center; gap: 10px;
+  background: transparent; border: none; color: #e5e7eb;
+  padding: 6px 8px; border-radius: 6px; font-size: 12px; cursor: pointer; text-align: left;
+}
+.mint-app:hover { background: rgba(139,92,246,0.2); }
+.mint-app-icon { font-size: 15px; width: 18px; text-align: center; }
+.start-no-results.hidden { display: none; }
+.start-no-results { text-align: center; font-size: 12px; color: #9ca3af; padding: 14px; }
+
+/* context menus */
+.ctx-menu {
+  position: fixed; z-index: 100;
+  background: #232030; border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px; padding: 4px; min-width: 160px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  display: flex; flex-direction: column; gap: 1px;
+}
+.ctx-menu button {
+  background: transparent; border: none; color: #e5e7eb;
+  padding: 7px 10px; border-radius: 6px; text-align: left; font-size: 12px; cursor: pointer;
+}
+.ctx-menu button:hover { background: rgba(139,92,246,0.25); }
+.ctx-menu button.danger { color: #f87171; }
+.ctx-menu .ctx-sep { height: 1px; background: rgba(255,255,255,0.06); margin: 4px 0; }
+
+/* responsive */
+@media (max-width: 560px) {
+  #start-menu { width: calc(100vw - 12px); left: 6px; height: 60vh; }
+  #wallpaper-logo svg { width: 140px; height: 140px; }
+}
+.selection-rect { position: absolute; border: 1px solid #8b5cf6; background: rgba(139,92,246,0.12); z-index: 2; pointer-events: none; }
+#alt-tab-overlay { position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%); background: #1a1625; border: 1px solid rgba(139,92,246,0.3); border-radius: 12px; padding: 16px 20px; display: flex; gap: 16px; z-index: 300; box-shadow: 0 16px 48px rgba(0,0,0,0.6); }
+#alt-tab-overlay.hidden { display: none; }
+.alt-tab-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 14px; border-radius: 10px; color: #e9d5ff; min-width: 80px; opacity: 0.6; }
+.alt-tab-item.active { background: rgba(139,92,246,0.25); opacity: 1; border: 1px solid #8b5cf6; }
+.app-error { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: grid; place-items: center; z-index: 5; }
+.app-error-card { background: #1e1b2e; border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 16px; color: #f5f3ff; max-width: 300px; display: flex; flex-direction: column; gap: 8px; }
+.app-error-title { font-weight: 700; color: #f87171; }
+.app-error-msg { font-size: 12px; opacity: 0.7; word-break: break-all; }
+.app-error-actions { display: flex; gap: 8px; }
+.app-error-btn { flex: 1; padding: 6px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.08); color: white; cursor: pointer; }
+.shutdown-overlay {
+  position: absolute; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 18px; flex-direction: column; gap: 16px;
+}
